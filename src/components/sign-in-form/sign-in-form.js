@@ -1,9 +1,7 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 
 import Button from "../button/button";
 import FormInput from "../form-input/form-input";
-
-import { UserContext } from "../../context/user.context"; // gives back value of context (user, setter)
 
 import {
   createUserDocumentFromAuth,
@@ -21,8 +19,6 @@ const defaultFormField = {
 const SignInForm = () => {
   const [formFields, setFormFields] = useState(defaultFormField);
   const { email, password } = formFields;
-
-  const { setCurrentUser } = useContext(UserContext);
 
   const resetFormFields = () => {
     setFormFields(defaultFormField);
@@ -59,9 +55,7 @@ const SignInForm = () => {
   };
 
   const signInWithGoogle = async () => {
-    const { user } = await signInWithGooglePopup();
-    // console.log(response); // uid = unique identifier for specific user
-    await createUserDocumentFromAuth(user);
+    await signInWithGooglePopup(); // returns user object
   };
 
   return (
