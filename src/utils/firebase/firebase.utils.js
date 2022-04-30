@@ -9,7 +9,17 @@ import {
   signOut,
   onAuthStateChanged,
 } from "firebase/auth";
-import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
+
+import {
+  getFirestore,
+  doc,
+  getDoc,
+  setDoc,
+  collection,
+  writeBatch,
+  query,
+  getDocs,
+} from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyC_3Ol8xu8408Koht3rTkLYq-rky4Xg-q0",
@@ -35,6 +45,39 @@ export const signInWithGoogleRedirect = () =>
   signInWithRedirect(auth, googleProvider);
 
 export const db = getFirestore();
+
+// collectionKey - name of a table(collection); objectsToAdd - documents i want to add
+export const addCollectionAndDocuments = async (
+  collectionKey,
+  objectsToAdd
+) => {
+  const collectionRef = collection(db, collectionKey);
+  const batch = writeBatch(db); // batch is needed for set of actions to the db
+
+  objectsToAdd.forEach((object) => {
+    const docRef = doc(collectionRef, object.title.toLowerCase()); // the key for each object in db will be its title!
+    batch.set(docRef, object);
+  });
+
+  await batch.commit(); // this will run batching process
+  console.log("done");
+};
+
+export const getCategoriesAndDocuments = async () => {
+  const collectionRef = collection(db, "categories");
+  const q = query(collectionRef);
+
+  const querySnapshot = await getDocs(q);
+  // categoryMap is needed to make a nested object out of array of objects!
+  const categoryMap = querySnapshot.docs.reduce((acc, docSnapshot) => {
+    const { title, items } = docSnapshot.data(); // items = array of objects of specific product(shoes, hats, etc.)
+    acc[title.toLowerCase()] = items;
+
+    return acc;
+  }, {});
+
+  return categoryMap;
+};
 
 // getting user from auth service and storing it inside firestore database
 export const createUserDocumentFromAuth = async (
