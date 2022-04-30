@@ -9,7 +9,7 @@ import {
   CheckoutHeader,
   HeaderBlock,
   CheckoutTotal,
-} from "./checkout.styles.js";
+} from "./checkout.styles";
 
 const Checkout = () => {
   const { cartItems, totalPrice } = useContext(CartContext);
