@@ -68,15 +68,8 @@ export const getCategoriesAndDocuments = async () => {
   const q = query(collectionRef);
 
   const querySnapshot = await getDocs(q);
-  // categoryMap is needed to make a nested object out of array of objects!
-  const categoryMap = querySnapshot.docs.reduce((acc, docSnapshot) => {
-    const { title, items } = docSnapshot.data(); // items = array of objects of specific product(shoes, hats, etc.)
-    acc[title.toLowerCase()] = items;
 
-    return acc;
-  }, {});
-
-  return categoryMap;
+  return querySnapshot.docs.map((docSnapshot) => docSnapshot.data());
 };
 
 // getting user from auth service and storing it inside firestore database

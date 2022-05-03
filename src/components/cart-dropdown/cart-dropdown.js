@@ -1,7 +1,9 @@
-import React, { useContext } from "react";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import { CartContext } from "../../context/cart.context";
+import { toggleCartVisible } from "../../store/cart/cart.action";
+import { selectCartItems } from "../../store/cart/cart.selector";
 
 import Button from "../button/button";
 import CartItem from "../cart-item/cart-item";
@@ -13,11 +15,12 @@ import {
 } from "./cart-dropdown.styles";
 
 const CartDropdown = () => {
-  const { cartItems, toggleIsCartVisible } = useContext(CartContext);
+  const cartItems = useSelector(selectCartItems);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const goToCheckoutHandler = () => {
-    toggleIsCartVisible();
+    dispatch(toggleCartVisible());
     navigate("/checkout");
   };
 

@@ -47,7 +47,3 @@ export const Name = styled.span`
   width: 90%;
   margin-bottom: 15px;
 `;
-
-export const Price = styled.span`
-  width: 10%;
-`;

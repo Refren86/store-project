@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
+
 import { Routes, Route } from "react-router-dom";
 
 import {
   createUserDocumentFromAuth,
-  getCategoriesAndDocuments,
   onAuthStateChangedListener,
 } from "./utils/firebase/firebase.utils";
 
@@ -15,10 +15,10 @@ import Navigation from "./routes/navigation/navigation";
 import Authentication from "./routes/authentication/authentication";
 
 import { setCurrentUser } from "./store/user/user.action";
-import { setCategoriesMap } from "./store/categories/categories.action";
 
 const App = () => {
   const dispatch = useDispatch();
+
   useEffect(() => {
     // unsubscribe is a function which allows to stop listening for an auth change :)
     // the user is either the user object or null
@@ -32,15 +32,6 @@ const App = () => {
 
     // invoke unsubscribe function whenever component unmounts
     return unsubscribe;
-  }, [dispatch]);
-
-  useEffect(() => {
-    const getCategoriesMap = async () => {
-      const categoryMap = await getCategoriesAndDocuments();
-      dispatch(setCategoriesMap(categoryMap));
-    };
-
-    getCategoriesMap();
   }, [dispatch]);
 
   return (
