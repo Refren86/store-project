@@ -63,8 +63,8 @@ export const addCollectionAndDocuments = async (
   console.log("done");
 };
 
-export const getCategoriesAndDocuments = async () => {
-  const collectionRef = collection(db, "categories");
+export const getCategoriesAndDocuments = async (key) => {
+  const collectionRef = collection(db, key);
   const q = query(collectionRef);
 
   const querySnapshot = await getDocs(q);

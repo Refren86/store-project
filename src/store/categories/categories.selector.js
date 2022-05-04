@@ -19,6 +19,11 @@ export const selectCategoriesMap = createSelector(
     }, {})
 );
 
+export const selectCategoriesIsLoading = createSelector(
+  [selectCategoryReducer],
+  (categoriesSlice) => categoriesSlice.isLoading
+);
+
 // this will make a nested object from array of objects
 // export const selectCategoriesMap = (state) => {
 //   console.log("selector fired");
