@@ -44,14 +44,14 @@ const SignInForm = () => {
     }
   };
 
+  const signInWithGoogle = async () => {
+    await signInWithGooglePopup(); // returns user object
+  };
+
   const handleChange = (event) => {
     const { name, value } = event.target;
 
     setFormFields({ ...formFields, [name]: value });
-  };
-
-  const signInWithGoogle = async () => {
-    await signInWithGooglePopup(); // returns user object
   };
 
   return (

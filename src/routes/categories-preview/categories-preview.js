@@ -15,10 +15,10 @@ const CategoriesPreview = () => {
 
   return (
     <Fragment>
-      {/* categoriesMap[title] - different arrays with shop products */}
       {isLoading ? (
         <Spinner />
       ) : (
+        // categoriesMap[title] - different arrays with shop products
         Object.keys(categoriesMap).map((title) => (
           <CategoryPreview
             key={title}

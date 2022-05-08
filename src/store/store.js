@@ -2,7 +2,10 @@ import { compose, createStore, applyMiddleware } from "redux";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import logger from "redux-logger";
-import thunk from "redux-thunk";
+import createSagaMiddleware from "redux-saga";
+// import thunk from "redux-thunk";
+
+import { rootSaga } from "./root-saga";
 
 import { rootReducer } from "./root-reducer";
 
@@ -13,12 +16,15 @@ const persistConfig = {
   whitelist: ["cart"], // save only cart reducer to the local storage
 };
 
+const sagaMiddleware = createSagaMiddleware();
+
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 // use logger middleware only when in development mode; filter(Boolean) will remove falsy values from array
+// here i can put any middleware i need (logger, think, saga)
 const middleWares = [
   process.env.NODE_ENV !== "production" && logger,
-  thunk,
+  sagaMiddleware,
 ].filter(Boolean);
 
 // const thunkMiddleware = (store) => (next) => (action) => {
@@ -41,5 +47,7 @@ export const store = createStore(
   undefined,
   composedEnhancers
 );
+
+sagaMiddleware.run(rootSaga);
 
 export const persistor = persistStore(store);

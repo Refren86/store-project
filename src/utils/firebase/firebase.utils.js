@@ -63,8 +63,8 @@ export const addCollectionAndDocuments = async (
   console.log("done");
 };
 
-export const getCategoriesAndDocuments = async (key) => {
-  const collectionRef = collection(db, key);
+export const getCategoriesAndDocuments = async (collectionKey) => {
+  const collectionRef = collection(db, collectionKey);
   const q = query(collectionRef);
 
   const querySnapshot = await getDocs(q);
@@ -125,3 +125,19 @@ export const signOutUser = async () => await signOut(auth);
 // when auth state changes(sign in, sign out), invokes callback!
 export const onAuthStateChangedListener = (callback) =>
   onAuthStateChanged(auth, callback);
+
+
+export const getCurrentUser = () => {
+  return new Promise((resolve, reject) => {
+    const unsubscribe = onAuthStateChanged(
+      auth,
+      (userAuth) => {
+        // unsubscribe is a function which allows to stop listening for an auth change :)
+        // the user is either the user object or null
+        unsubscribe(); // unsubscribe immediately after we get data about user auth (closes the listener)
+        resolve(userAuth);
+      },
+      reject
+    )
+  })
+}

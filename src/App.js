@@ -4,8 +4,7 @@ import { useDispatch } from "react-redux";
 import { Routes, Route } from "react-router-dom";
 
 import {
-  createUserDocumentFromAuth,
-  onAuthStateChangedListener,
+  getCurrentUser,
 } from "./utils/firebase/firebase.utils";
 
 import Home from "./routes/home/home";
@@ -20,18 +19,7 @@ const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // unsubscribe is a function which allows to stop listening for an auth change :)
-    // the user is either the user object or null
-    const unsubscribe = onAuthStateChangedListener((user) => {
-      if (user) {
-        createUserDocumentFromAuth(user);
-      }
-
-      dispatch(setCurrentUser(user));
-    });
-
-    // invoke unsubscribe function whenever component unmounts
-    return unsubscribe;
+    getCurrentUser().then(user => setCurrentUser(user))
   }, [dispatch]);
 
   return (
