@@ -41,6 +41,7 @@ export const auth = getAuth();
 
 export const signInWithGooglePopup = () =>
   signInWithPopup(auth, googleProvider);
+
 export const signInWithGoogleRedirect = () =>
   signInWithRedirect(auth, googleProvider);
 
@@ -104,8 +105,8 @@ export const createUserDocumentFromAuth = async (
     }
   }
 
-  // if user data exists - return userDocRef;
-  return userDocRef;
+  // if user data exists - return userSnapshot, which contains user data;
+  return userSnapshot;
 };
 
 export const createAuthUserWithEmailAndPassword = async (email, password) => {
@@ -126,7 +127,6 @@ export const signOutUser = async () => await signOut(auth);
 export const onAuthStateChangedListener = (callback) =>
   onAuthStateChanged(auth, callback);
 
-
 export const getCurrentUser = () => {
   return new Promise((resolve, reject) => {
     const unsubscribe = onAuthStateChanged(
@@ -135,9 +135,9 @@ export const getCurrentUser = () => {
         // unsubscribe is a function which allows to stop listening for an auth change :)
         // the user is either the user object or null
         unsubscribe(); // unsubscribe immediately after we get data about user auth (closes the listener)
-        resolve(userAuth);
+        resolve(userAuth); // returns either user object or null
       },
       reject
-    )
-  })
-}
+    );
+  });
+};
