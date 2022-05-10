@@ -4,8 +4,6 @@ import { useDispatch } from "react-redux";
 import Button, { BUTTON_TYPE_CLASSES } from "../button/button";
 import FormInput from "../form-input/form-input";
 
-import { signInAuthUserWithEmailAndPassword } from "../../utils/firebase/firebase.utils";
-
 import {
   googleSignInStart,
   emailSignInStart,
