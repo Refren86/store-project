@@ -7,6 +7,12 @@ import {
   ButtonSpinner,
 } from "./button.styles";
 
+type ButtonProps = {
+  children: string;
+  buttonType: string;
+  isLoading: boolean;
+}
+
 // default button, inverted, sign-in
 export const BUTTON_TYPE_CLASSES = {
   BASE: "base",
@@ -22,7 +28,7 @@ const getButton = (buttonType = BUTTON_TYPE_CLASSES.BASE) =>
     [BUTTON_TYPE_CLASSES.INVERTED]: InvertedButton,
   }[buttonType]);
 
-const Button = ({ children, buttonType, isLoading, ...otherProps }) => {
+const Button = ({ children, buttonType, isLoading, ...otherProps }: ButtonProps) => {
   const CustomButton = getButton(buttonType);
 
   return (

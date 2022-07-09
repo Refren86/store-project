@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import { useDispatch } from "react-redux";
 
 import FormInput from "../form-input/form-input";
@@ -8,6 +8,13 @@ import { SignUpContainer } from "./sign-up-form.styles";
 
 import { signUpStart } from "../../store/user/user.action";
 
+type SignUpForm = {
+  displayName: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+}
+
 const defaultFormField = {
   displayName: "",
   email: "",
@@ -16,8 +23,8 @@ const defaultFormField = {
 };
 
 const SignUpForm = () => {
-  const [formFields, setFormFields] = useState(defaultFormField);
-  const { displayName, email, password, confirmPassword } = formFields;
+  const [formFields, setFormFields] = useState<SignUpForm>(defaultFormField);
+  const { displayName, confirmPassword, email, password } = formFields;
   const dispatch = useDispatch();
 
   const resetFormFields = () => {
@@ -45,7 +52,7 @@ const SignUpForm = () => {
     }
   };
 
-  const handleChange = (event) => {
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
 
     setFormFields({ ...formFields, [name]: value });
