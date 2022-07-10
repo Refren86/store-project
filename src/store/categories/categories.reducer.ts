@@ -21,7 +21,7 @@ const initialState: CategoriesState = {
 
 export const categoriesReducer = (
   state = initialState,
-  action = {} as AnyAction // reducer can receive any type of actions, and then it compares it with action creators inside
+  action: AnyAction // reducer can receive any type of actions, and then it compares it with action creators inside
 ): CategoriesState => {
   if (fetchCategoriesStart.match(action)) { // if action creator matches with action
     // action = FetchCategoriesStart

@@ -1,4 +1,9 @@
-export const loggerMiddleware = (store) => (next) => (action) => {
+import { Middleware } from "redux";
+
+import { RootState } from "../store";
+
+// first argument for middleware generic is dispatch extension (absent here)
+export const loggerMiddleware: Middleware<{}, RootState> = (store) => (next) => (action) => {
   if (!action.type) {
     return next(action);
   }
