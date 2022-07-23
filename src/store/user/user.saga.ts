@@ -1,5 +1,6 @@
 import { takeLatest, put, call, all } from "typed-redux-saga/macro";
 
+import { User } from "firebase/auth";
 import USER_ACTION_TYPES from "./user.types";
 
 import {
@@ -23,7 +24,6 @@ import {
   signOutUser,
   AdditionalInformation,
 } from "../../utils/firebase/firebase.utils";
-import { User } from "firebase/auth";
 
 export function* getSnapshotFromUserAuth(
   userAuth: User,
@@ -80,7 +80,7 @@ export function* logInWithEmailAndPassword({ payload: { email, password } }: Ema
 
     if (userCredential) {
       const { user } = userCredential;
-      yield * call(getSnapshotFromUserAuth, user);
+      yield* call(getSnapshotFromUserAuth, user);
     }
   } catch (err) {
     yield* put(signInFailed(err as Error));

@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
+import { StripeCardElement } from "@stripe/stripe-js";
 import { useSelector } from "react-redux";
 
 import { selectCartTotalPrice } from "../../store/cart/cart.selector";
@@ -13,6 +14,11 @@ import {
   PaymentButton,
 } from "./payment-form.styles";
 
+// strict type guard (type predicate) to check for the card type - if its not null, it definitely would be StripeCardElement
+const ifValidCardElement = (
+  card: StripeCardElement | null
+): card is StripeCardElement => card !== null;
+
 const PaymentForm = () => {
   const stripe = useStripe();
   const elements = useElements();
@@ -20,7 +26,7 @@ const PaymentForm = () => {
   const currentUser = useSelector(selectCurrentUser);
   const [isProcessingPayment, setIsProcessingPayment] = useState(false);
 
-  const paymentHandler = async (e) => {
+  const paymentHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!stripe || !elements) {
@@ -43,10 +49,16 @@ const PaymentForm = () => {
       paymentIntent: { client_secret },
     } = response; // response.paymentIntent.client_secret is a token!
 
+    // type guard check (2 lines below)
+    const cardDetails = elements.getElement(CardElement);
+
+    // if (cardDetails === null) return; // not very strict typing variant
+    if (!ifValidCardElement(cardDetails)) return; // very strict typing
+
     // method for cards operations
     const paymentResult = await stripe.confirmCardPayment(client_secret, {
       payment_method: {
-        card: elements.getElement(CardElement), // getting specific card element (from stripe imports)
+        card: cardDetails, // getting specific card element (from stripe imports)
         billing_details: {
           name: currentUser ? currentUser.displayName : "Guest", // customer name
         },
