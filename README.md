@@ -5,4 +5,5 @@ Technologies used:
 - Redux as global storage
 - Redux saga for asynchronous operations
 - Styled components library
+- Typescript
 - Routing
