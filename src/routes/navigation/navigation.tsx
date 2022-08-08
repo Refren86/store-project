@@ -7,7 +7,6 @@ import CartDropdown from "../../components/cart-dropdown/cart-dropdown";
 
 import { selectIsCartOpen } from "../../store/cart/cart.selector";
 import { selectCurrentUser } from "../../store/user/user.selector";
-
 import { signOutStart } from "../../store/user/user.action";
 
 import {
