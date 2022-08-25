@@ -7,3 +7,12 @@ Technologies used:
 - Styled components library
 - Typescript
 - Routing
+
+Plans:
+- Switch to RTK
+- Add paypal
+- Create user profile with password change functionality
+- Add forgot password functionality
+- Create Admin panel
+- Add google analytics
+- Add slider to home page
